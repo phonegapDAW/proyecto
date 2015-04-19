@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="cordovaapp-cordovalib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/proyectoPhonegap/platforms/android/CordovaLib/bin/cordovaapp-cordovalib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
