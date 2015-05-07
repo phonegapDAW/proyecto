@@ -37,6 +37,18 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        
+
+        $.ajax({
+            url:   'http://noticiasprogramacion.esy.es/damerss.php',
+            type:  'post',
+            beforeSend: function () {
+                    $("#content").html("Procesando, espere por favor...");
+            },
+            success:  function (response) {
+                    $("#content").html(response);
+            }
+        });
+
     }
 };
+

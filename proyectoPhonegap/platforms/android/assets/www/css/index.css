@@ -113,3 +113,9 @@ h1 {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
 }
+
+p {
+    margin-top: 20px;
+    margin-right: 50px;
+    margin-left: 50px;
+}
