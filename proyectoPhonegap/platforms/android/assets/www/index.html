@@ -3,10 +3,14 @@
 <head>
     <!-- A saber que es esto... -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- js de jquery, jquery mobile y js personal (index.js)-->
+    <!-- js de cordova, jquery, jquery mobile y js personal (index.js)-->
+    <script type="text/javascript" src="cordova.js"></script>
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
     <script src="js/index.js"></script>
+    <!-- Base de datos (con usuario llamamos a ambas)-->
+    <script src="js/usuario.js"></script>
+    <!--<script src="js/temas.js"></script>-->
     <!-- estilo css de jquery mobile y css personal (index.css) -->
     <link rel="stylesheet" href="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">
     <link rel="stylesheet" href="css/index.css">
@@ -16,7 +20,7 @@
 <!-- ventana aplicación -->
 <div data-role="page" id="pageone">
 
-    <!-- menu lateral -->
+    <!-- menu lateral (no se muestra) -->
     <div data-role="panel" id="myPanel">
         <h2>SuperMenu</h2>
         <p>You can close the panel by clicking outside the panel, pressing the Esc key or by swiping.</p>
@@ -32,6 +36,11 @@
 
     <!-- Contenido -->
     <div data-role="main" class="ui-content">
+        <h2>Usuarios:</h2>
+        <div id="usu">nada</div>
+        <h2>Temas:</h2>
+        <div id="tem">nada</div>
+        <h2>Noticias:</h2>
         <div id="rss"></div>        <!-- aquí iran las noticias -->
     </div>
 

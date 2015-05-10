@@ -1,4 +1,5 @@
-$(document).ready(function() {
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
     $.ajax({
         url:   'http://noticiasprogramacion.esy.es/damerss.php',
         type:  'post',
@@ -9,4 +10,4 @@ $(document).ready(function() {
             $("#rss").html(response);
         }
     });
-});
+}
