@@ -1,29 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- A saber que es esto... -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- js de jquery, jquery mobile y js personal (index.js)-->
     <script src="js/jquery-1.11.3.min.js"></script>
-    <script src="js/index.js"></script>
     <script src="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/index.js"></script>
+    <!-- estilo css de jquery mobile y css personal (index.css) -->
     <link rel="stylesheet" href="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
 
+<!-- ventana aplicación -->
 <div data-role="page" id="pageone">
+
+    <!-- menu lateral -->
     <div data-role="panel" id="myPanel">
         <h2>SuperMenu</h2>
         <p>You can close the panel by clicking outside the panel, pressing the Esc key or by swiping.</p>
         <a href="#my-header" data-rel="close">Cerrar</a>
     </div>
 
+    <!-- Cabecera -->
     <div data-role="header">
-        <a href="#myPanel" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">Open Panel</a><h1>HECTOR QUE PASA</h1>
+        <!-- Boton que despliega el panel izquierdo -->
+        <a href="#myPanel" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">Panel</a>
+        <h1>HECTOR QUE PASA</h1>
     </div>
 
+    <!-- Contenido -->
     <div data-role="main" class="ui-content">
-        <div id="rss"></div>
+        <div id="rss"></div>        <!-- aquí iran las noticias -->
     </div>
 
+    <!-- Pie de página -->
     <div data-role="footer">
         <h1>FIN</h1>
     </div>
