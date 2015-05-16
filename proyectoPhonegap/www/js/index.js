@@ -7,29 +7,35 @@ function onDeviceReady() {
 }
 
 function queryusuario(tx) {
+    alert('comprobando usuario');
+    tx.executeSql('DROP TABLE IF EXISTS USUARIO');
     tx.executeSql('CREATE TABLE IF NOT EXISTS USUARIO (correo TEXT PRIMARY KEY, pass TEXT)');
-    tx.executeSql('SELECT * FROM USUARIO', [], querySuccess, errorCB);
+    tx.executeSql('INSERT INTO USUARIO (correo, pass) VALUES ("hectormola", "123456")');
+    tx.executeSql('SELECT * FROM USUARIO', [], querySuccessUsuario, errorCB);
 }
 
 function querynoticias(tx) {
+    alert('comprobando noticias');
     //tx.executeSql('DROP TABLE IF EXISTS NOTICIAS');
     tx.executeSql('CREATE TABLE IF NOT EXISTS NOTICIAS (cod_noticia INTEGER PRIMARY KEY, titulo TEXT, cuerpo TEXT, enlace TEXT, tema TEXT)');
     //tx.executeSql('INSERT INTO NOTICIAS (cod_noticia, titulo, cuerpo, enlace, tema) VALUES (1,"prueba1", "123456", "caca","prueba")');
     //tx.executeSql('INSERT INTO NOTICIAS (cod_noticia, titulo, cuerpo, enlace, tema) VALUES (2,"prueba2", "sdfsdfsf", "feo","sql")');
     //tx.executeSql('INSERT INTO NOTICIAS (cod_noticia, titulo, cuerpo, enlace, tema) VALUES (3,"prueba3", "holahola", "rss","rss")');
-    tx.executeSql('SELECT * FROM NOTICIAS', [], querySuccess2, errorCB);
+    tx.executeSql('SELECT * FROM NOTICIAS', [], querySuccessNoticias, errorCB);
 }
 
-function querySuccess(tx, results) {
+function querySuccessUsuario(tx, results) {
     if(results.rows.length>0){
+        alert('hay usuario');
         db.transaction(querynoticias, errorCB);
     }
     else{
+        alert('no hay usuario');
         location.href = "#ventanalogin";
     }
 }
 
-function querySuccess2(tx, results) {
+function querySuccessNoticias(tx, results) {
     if(results.rows.length>0){
         alert('hay noticias');
         $( "#rss" ).html("");
@@ -52,6 +58,7 @@ function errorCB(err) {
 }
 
 function sacarNoticiasServidor() {
+    alert('conectando al servidor');
     $.ajax({
         url:   'http://noticiasprogramacion.esy.es/damerss.php',
         type:  'post',
@@ -60,6 +67,7 @@ function sacarNoticiasServidor() {
         },
         success:  function (response) {
             db.transaction(function(tx) {
+                alert('guardando noticias');
                 var elem = response.split('<ULTRAcacaCasposa>');
                 for(var i=0;i<elem.length-1;i++){
                     var valores=elem[i].split('<cacaCasposa>');
