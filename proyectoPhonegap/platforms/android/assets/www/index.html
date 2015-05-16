@@ -7,15 +7,17 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="js/funciones.js"></script>
     <script src="js/index.js"></script>
     <!-- estilo css de jquery mobile y css personal (index.css) -->
     <link rel="stylesheet" href="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">
     <link rel="stylesheet" href="css/index.css">
 </head>
+
 <body>
 
-<!-- ventana aplicación -->
-<div data-role="page" id="pageone" data-theme='b'>
+<!-- ventana de noticias -->
+<div data-role="page" id="ventanarss" data-theme='b'>
 
     <!-- menu lateral (no se muestra) -->
     <div data-role="panel" id="mypanel" data-dismissible="false">
@@ -35,6 +37,10 @@
     <div data-role="main" class="ui-content">
         <!-- aquí iran las noticias -->
         <div data-role="collapsibleset" id="rss"></div>
+        <!--<script type="text/javascript">
+            sacarNoticiasServidor();
+        </script>-->
+
     </div>
 
     <!-- Pie de página -->
