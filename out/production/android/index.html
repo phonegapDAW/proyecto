@@ -7,7 +7,6 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    <script src="js/funciones.js"></script>
     <script src="js/index.js"></script>
     <!-- estilo css de jquery mobile y css personal (index.css) -->
     <link rel="stylesheet" href="js/jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">
@@ -21,29 +20,70 @@
 
     <!-- menu lateral (no se muestra) -->
     <div data-role="panel" id="mypanel" data-dismissible="false">
-        <h2>SuperMenu</h2>
-        <p>You can close the panel by clicking outside the panel, pressing the Esc key or by swiping.</p>
-        <a href="#header" data-rel="close">Cerrar</a>
+        <center>
+            <h2>SuperMenu</h2>
+            <h3>Cuenta:</h3>
+            <p id="corr">Correo: </p>
+            <p id="cont">Contra: </p>
+            <a href="" id="cerrarSesion" data-role="button" data-inline="true">Cerrar sesion</a><br>
+        </center>
+        <div id="cerrarPanel">     <!-- Colocado abajo -->
+            <center>
+                <a href="#header" data-role="button" data-inline="true" data-rel="close" data-theme="a">Cerrar panel</a>
+            </center>
+        </div>
     </div>
 
     <!-- Cabecera -->
     <div data-role="header">
         <!-- Boton que despliega el panel izquierdo -->
         <a href="#mypanel" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">Panel</a>
-        <h1>HECTOR QUE PASA</h1>
+        <h1>Noticias</h1>
     </div>
 
     <!-- Contenido -->
     <div data-role="main" class="ui-content">
         <!-- aquí iran las noticias -->
-        <div data-role="collapsibleset" id="rss"><center>Procesando, espere por favor...</center></div>
-
+        <div data-role="collapsibleset" id="rss"><center><h1>¡Bienvenido!</h1></center></div>
     </div>
 
     <!-- Pie de página -->
-    <div data-role="footer">
+    <!--<div data-role="footer">
         <h1>FIN</h1>
+    </div>-->
+</div>
+
+<!-- ventana de Login -->
+<div data-role="page" id="ventanalogin" data-theme='b'>
+
+    <!-- Cabecera -->
+    <div data-role="header">
+        <h1>Login</h1>
     </div>
+
+    <!-- Contenido -->
+    <div data-role="main" class="ui-content" id="formulario">
+        <!-- aquí iran las noticias -->
+        <center>
+            <div id="form">
+                <div data-role="fieldcontain">
+                    <label for="correo">Correo:</label>
+                    <input type="text" name="name" id="correo" value=""  />
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="pass">Contraseña:</label>
+                    <input type="text" name="name" id="pass" value=""  />
+                </div>
+                <a href="" id="nuevo" data-role="button" data-inline="true">Registrarse</a>
+                <a href="" id="entrar" data-role="button" data-inline="true" data-theme="a">Entrar</a>
+            </div>
+        </center>
+    </div>
+
+    <!-- Pie de página -->
+    <!--<div data-role="footer">
+        <h1>FIN</h1>
+    </div>-->
 </div>
 
 </body>

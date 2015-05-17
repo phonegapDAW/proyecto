@@ -19,8 +19,12 @@
 
 package com.phonegap.helloworld;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import org.apache.cordova.*;
+import android.app.Activity;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 
 public class CordovaApp extends CordovaActivity
 {
@@ -29,7 +33,7 @@ public class CordovaApp extends CordovaActivity
     {
         super.onCreate(savedInstanceState);
         super.init();
-        // Set by <content src="index.html" /> in config.xml
+
         loadUrl("about:blank");     //EVITAR ERROR DE CACHE!!
         loadUrl(launchUrl);
     }

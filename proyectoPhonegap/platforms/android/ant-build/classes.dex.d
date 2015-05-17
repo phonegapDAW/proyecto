@@ -1,0 +1,20 @@
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes.dex : \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\com\phonegap\helloworld\BuildConfig.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\com\phonegap\helloworld\CordovaApp.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\com\phonegap\helloworld\R$attr.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\com\phonegap\helloworld\R$drawable.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\com\phonegap\helloworld\R$string.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\com\phonegap\helloworld\R$xml.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\com\phonegap\helloworld\R.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\com\phonegap\helloworld\UsuariosSQLiteHelper.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen$1.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen$2.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen$3.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen$4.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen$5$1.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen$5.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen$6$1.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen$6.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen$7.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\classes\org\apache\cordova\splashscreen\SplashScreen.class \
+C:\Users\hector\workspace\Repositorio\proyecto\proyectoPhonegap\platforms\android\ant-build\dexedLibs\classes-86508bf34fe3392f9a755d36bbf06514.jar \
