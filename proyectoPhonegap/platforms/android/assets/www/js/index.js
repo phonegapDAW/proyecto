@@ -18,6 +18,7 @@ function onDeviceReady() {
     });
     $("#recargar").click( function(){
             db.transaction(eliminarTablaNoticias, errorCB);
+            alert("cargando");
         });
 
     //primera funcion del programa (comprobar usuario)
@@ -38,7 +39,7 @@ function queryusuario(tx) {
 }
 
 function querynoticias(tx) {
-    alert('Colocando noticias');
+    //alert('Colocando noticias');
     //tx.executeSql('DROP TABLE IF EXISTS NOTICIAS');
     tx.executeSql('CREATE TABLE IF NOT EXISTS NOTICIAS (cod_noticia INTEGER PRIMARY KEY, titulo TEXT, cuerpo TEXT, enlace TEXT, tema TEXT)');
     //tx.executeSql('INSERT INTO NOTICIAS (cod_noticia, titulo, cuerpo, enlace, tema) VALUES (1,"prueba1", "123456", "caca","prueba")');
@@ -110,7 +111,7 @@ function errorCB(err) {
 //-------------------------------------------------------------   SERVIDOR   ---------------------------------------------------------------
 
 function sacarNoticiasServidor() {
-    alert('conectando al servidor');
+    //alert('conectando al servidor');
     $.ajax({
         url:   'http://noticiasprogramacion.esy.es/damerss.php',
         type:  'post',
