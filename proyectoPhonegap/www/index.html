@@ -19,26 +19,26 @@
 <div data-role="page" id="ventanarss" data-theme='b'>
 
     <!-- menu lateral (no se muestra) -->
-    <div data-role="panel" id="mypanel" data-dismissible="false">
+    <div data-role="panel" id="mypanel" data-position-fixed="true">
         <center>
             <h2>SuperMenu</h2>
             <h3>Cuenta:</h3>
             <p id="corr">Correo: </p>
             <p id="cont">Contra: </p>
-            <a href="" id="cerrarSesion" data-role="button" data-inline="true">Cerrar sesion</a><br>
         </center>
         <div id="cerrarPanel">     <!-- Colocado abajo -->
             <center>
-                <a href="#header" data-role="button" data-inline="true" data-rel="close" data-theme="a">Cerrar panel</a>
+                <a href="" id="cerrarSesion" data-role="button" data-inline="true" data-theme="a">Cerrar sesion</a>
             </center>
         </div>
     </div>
 
     <!-- Cabecera -->
-    <div data-role="header">
+    <div data-role="header" data-position="fixed">
         <!-- Boton que despliega el panel izquierdo -->
-        <a href="#mypanel" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">Panel</a>
+        <a href="#mypanel" data-icon="gear" class="ui-btn-left">Opciones</a>
         <h1>Noticias</h1>
+        <a href="" id="recargar" data-icon="refresh" class="ui-btn-right">Recargar</a>
     </div>
 
     <!-- Contenido -->
@@ -48,9 +48,10 @@
     </div>
 
     <!-- Pie de página -->
-    <!--<div data-role="footer">
+    <!--<div data-role="footer" data-position="fixed">
         <h1>FIN</h1>
     </div>-->
+
 </div>
 
 <!-- ventana de Login -->
@@ -63,7 +64,7 @@
 
     <!-- Contenido -->
     <div data-role="main" class="ui-content" id="formulario">
-        <!-- aquí iran las noticias -->
+        <!-- formulario -->
         <center>
             <div id="form">
                 <div data-role="fieldcontain">
@@ -84,6 +85,7 @@
     <!--<div data-role="footer">
         <h1>FIN</h1>
     </div>-->
+
 </div>
 
 </body>

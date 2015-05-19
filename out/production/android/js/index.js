@@ -16,29 +16,13 @@ function onDeviceReady() {
     $("#cerrarSesion").click( function(){
         db.transaction(eliminarTablaUsuario, errorCB);
     });
+    $("#recargar").click( function(){
+            db.transaction(eliminarTablaNoticias, errorCB);
+        });
 
     //primera funcion del programa (comprobar usuario)
     db.transaction(queryusuario, errorCB);
 
-}
-
-//--------------------------   centrar contenido   -------------------------------------
-
-$(window).resize(function()
-{
-    //alert(location.hash);
-    if(location.hash=="#ventanalogin"){
-	    centerContent();
-	}
-});
-
-function centerContent()
-{
-    //alert('centrado');
-	var container = $('#formulario');
-	var content = $('#form');
-	content.css("left", (container.width()-content.width())/2);
-	content.css("top", (container.height()-content.height())/2);
 }
 
 
@@ -54,13 +38,13 @@ function queryusuario(tx) {
 }
 
 function querynoticias(tx) {
-    //alert('comprobando noticias');
+    alert('Colocando noticias');
     //tx.executeSql('DROP TABLE IF EXISTS NOTICIAS');
     tx.executeSql('CREATE TABLE IF NOT EXISTS NOTICIAS (cod_noticia INTEGER PRIMARY KEY, titulo TEXT, cuerpo TEXT, enlace TEXT, tema TEXT)');
     //tx.executeSql('INSERT INTO NOTICIAS (cod_noticia, titulo, cuerpo, enlace, tema) VALUES (1,"prueba1", "123456", "caca","prueba")');
     //tx.executeSql('INSERT INTO NOTICIAS (cod_noticia, titulo, cuerpo, enlace, tema) VALUES (2,"prueba2", "sdfsdfsf", "feo","sql")');
     //tx.executeSql('INSERT INTO NOTICIAS (cod_noticia, titulo, cuerpo, enlace, tema) VALUES (3,"prueba3", "holahola", "rss","rss")');
-    tx.executeSql('SELECT * FROM NOTICIAS', [], querySuccessNoticias, errorCB);
+    tx.executeSql('SELECT * FROM NOTICIAS order by cod_noticia DESC', [], querySuccessNoticias, errorCB);
 }
 
 function eliminarTablaUsuario(tx) {
@@ -68,6 +52,12 @@ function eliminarTablaUsuario(tx) {
     tx.executeSql('DROP TABLE IF EXISTS USUARIO');
     //location.href = "#ventanalogin";      //abrir ventana, dando atras volvemos
     location.replace("#ventanalogin");      //reemplaza ventana, dando atras no vuelve
+}
+function eliminarTablaNoticias(tx) {
+    //alert('eliminada tabla noticias');
+    tx.executeSql('DROP TABLE IF EXISTS NOTICIAS');
+    //buscamos en servidor
+    sacarNoticiasServidor();
 }
 
 
@@ -100,10 +90,10 @@ function querySuccessNoticias(tx, results) {
         var datos="";
         var len = results.rows.length;
         for (var i=0; i<len; i++){
-            var datos = "<div data-role='collapsible' data-iconpos='right'><h3>"+results.rows.item(i).titulo+"</h3><h4>"+results.rows.item(i).titulo+"</h4><p>"+results.rows.item(i).cuerpo+"</p><a HREF='http://"+results.rows.item(i).enlace+"'>"+results.rows.item(i).enlace+"</a><br>Tema: "+results.rows.item(i).tema+"</div>";
+            var datos = "<div data-role='collapsible' data-icon='false'><h3>"+results.rows.item(i).titulo+"</h3><h4>"+results.rows.item(i).titulo+"</h4><p>"+results.rows.item(i).cuerpo+"</p><a HREF='http://"+results.rows.item(i).enlace+"'>"+results.rows.item(i).enlace+"</a><br>Tema: "+results.rows.item(i).tema+"</div>";
             $( "#rss" ).append( datos ).collapsibleset( "refresh" );
         }
-        //alert('conseguido');
+        alert('conseguido');
     }
     else{
         //alert('no hay noticias');
@@ -120,7 +110,7 @@ function errorCB(err) {
 //-------------------------------------------------------------   SERVIDOR   ---------------------------------------------------------------
 
 function sacarNoticiasServidor() {
-    //alert('conectando al servidor');
+    alert('conectando al servidor');
     $.ajax({
         url:   'http://noticiasprogramacion.esy.es/damerss.php',
         type:  'post',
@@ -130,12 +120,14 @@ function sacarNoticiasServidor() {
         success:  function (response) {
             db.transaction(function(tx) {
                 //alert('guardando noticias');
+                tx.executeSql('CREATE TABLE IF NOT EXISTS NOTICIAS (cod_noticia INTEGER PRIMARY KEY, titulo TEXT, cuerpo TEXT, enlace TEXT, tema TEXT)');
                 var elem = response.split('<ULTRAcacaCasposa>');
                 for(var i=0;i<elem.length-1;i++){
                     var valores=elem[i].split('<cacaCasposa>');
                     tx.executeSql("INSERT INTO NOTICIAS (cod_noticia, titulo, cuerpo, enlace, tema) VALUES ('"+valores[0]+"','"+valores[1]+"','"+valores[2]+"','"+valores[3]+"','"+valores[4]+"')");
                 }
             });
+            //sacamos la noticia de sqlite
             db.transaction(querynoticias, errorCB);
         }
     });
@@ -157,6 +149,7 @@ function comprobarUsuarioServidor(correo, pass) {
             if(n!=-1){
                 db.transaction(function(tx) {
                     //alert('guardando usuario');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS USUARIO (correo TEXT PRIMARY KEY, pass TEXT)');
                     tx.executeSql("INSERT INTO USUARIO (correo, pass) VALUES ('"+$("#correo").val()+"','"+$("#pass").val()+"')");
                 });
                 db.transaction(querynoticias, errorCB);
@@ -186,6 +179,7 @@ function crearUsuarioServidor(correo, pass) {
             if(n!=-1){
                db.transaction(function(tx) {
                    //alert('guardando usuario');
+                   tx.executeSql('CREATE TABLE IF NOT EXISTS USUARIO (correo TEXT PRIMARY KEY, pass TEXT)');
                    tx.executeSql("INSERT INTO USUARIO (correo, pass) VALUES ('"+$("#correo").val()+"','"+$("#pass").val()+"')");
                });
                db.transaction(querynoticias, errorCB);
