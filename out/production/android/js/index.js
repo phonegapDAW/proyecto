@@ -3,23 +3,58 @@ var db = window.openDatabase("Database", "1.0", "SuperBD", 200000);
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-    $("#entrar").click( function(){
+    $('#form').submit(function() {
         if($("#correo").val()!="" && $("#pass").val()!=""){
+
+            //mostramos ventana de carga:
+            $.mobile.loading( "show", {
+                text: "Cargando...",
+                textVisible: true,
+                theme: "a",
+                html: ""
+            });
+
             comprobarUsuarioServidor($("#correo").val(),$("#pass").val());
+
+        }
+        else{
+            alert('Correo o contra incorrecta');
         }
     });
     $("#nuevo").click( function(){
         if($("#correo").val()!="" && $("#pass").val()!=""){
+
+            //mostramos ventana de carga:
+            $.mobile.loading( "show", {
+                text: "Cargando...",
+                textVisible: true,
+                theme: "a",
+                html: ""
+            });
+
             crearUsuarioServidor($("#correo").val(),$("#pass").val());
+
+        }
+        else{
+            alert('Correo o contra incorrecta');
         }
     });
     $("#cerrarSesion").click( function(){
         db.transaction(eliminarTablaUsuario, errorCB);
     });
     $("#recargar").click( function(){
-            db.transaction(eliminarTablaNoticias, errorCB);
-            alert("cargando");
+
+        //mostramos ventana de carga:
+        $.mobile.loading( "show", {
+            text: "Cargando...",
+            textVisible: true,
+            theme: "a",
+            html: ""
         });
+
+        sacarNoticiasServidor();
+        //alert("cargando");
+    });
 
     //primera funcion del programa (comprobar usuario)
     db.transaction(queryusuario, errorCB);
@@ -57,8 +92,6 @@ function eliminarTablaUsuario(tx) {
 function eliminarTablaNoticias(tx) {
     //alert('eliminada tabla noticias');
     tx.executeSql('DROP TABLE IF EXISTS NOTICIAS');
-    //buscamos en servidor
-    sacarNoticiasServidor();
 }
 
 
@@ -68,7 +101,6 @@ function eliminarTablaNoticias(tx) {
 function querySuccessUsuario(tx, results) {
     if(results.rows.length>0){
         //alert('hay usuario');
-        $("#rss").html("<center>Procesando, espere por favor...</center>");
         //mostramos usuario en el panel:
         $("#corr").html("Correo: "+results.rows.item(0).correo);
         $("#cont").html("Contra: "+results.rows.item(0).pass);
@@ -94,7 +126,11 @@ function querySuccessNoticias(tx, results) {
             var datos = "<div data-role='collapsible' data-icon='false'><h3>"+results.rows.item(i).titulo+"</h3><h4>"+results.rows.item(i).titulo+"</h4><p>"+results.rows.item(i).cuerpo+"</p><a HREF='http://"+results.rows.item(i).enlace+"'>"+results.rows.item(i).enlace+"</a><br>Tema: "+results.rows.item(i).tema+"</div>";
             $( "#rss" ).append( datos ).collapsibleset( "refresh" );
         }
-        alert('conseguido');
+        //cerramos ventana de carga:
+        $.mobile.loading( "hide" );
+        //subir a la primera noticia:
+        $.mobile.silentScroll(0);
+        //alert('conseguido');
     }
     else{
         //alert('no hay noticias');
@@ -112,7 +148,9 @@ function errorCB(err) {
 
 function sacarNoticiasServidor() {
     //alert('conectando al servidor');
+
     $.ajax({
+        timeout: 5000, // Microseconds, for the laughs.  Guaranteed timeout.
         url:   'http://noticiasprogramacion.esy.es/damerss.php',
         type:  'post',
         beforeSend: function () {
@@ -121,6 +159,9 @@ function sacarNoticiasServidor() {
         success:  function (response) {
             db.transaction(function(tx) {
                 //alert('guardando noticias');
+                //eliminamos tabla:
+                tx.executeSql('DROP TABLE IF EXISTS NOTICIAS');
+                //guardamos datos:
                 tx.executeSql('CREATE TABLE IF NOT EXISTS NOTICIAS (cod_noticia INTEGER PRIMARY KEY, titulo TEXT, cuerpo TEXT, enlace TEXT, tema TEXT)');
                 var elem = response.split('<ULTRAcacaCasposa>');
                 for(var i=0;i<elem.length-1;i++){
@@ -130,13 +171,20 @@ function sacarNoticiasServidor() {
             });
             //sacamos la noticia de sqlite
             db.transaction(querynoticias, errorCB);
+        },
+        error: function(request, status, exception) {
+            //cerramos ventana de carga:
+            $.mobile.loading( "hide" );
+            alert("Internet connection is down!");
         }
     });
+
 }
 
 function comprobarUsuarioServidor(correo, pass) {
     //alert('conectando al servidor');
     $.ajax({
+        timeout: 5000, // Microseconds, for the laughs.  Guaranteed timeout.
         url:   'http://noticiasprogramacion.esy.es/comprobarUsu.php',
         data: "correo="+correo+"&pass="+pass,
         type: "post",
@@ -144,7 +192,6 @@ function comprobarUsuarioServidor(correo, pass) {
 
         },
         success:  function (response) {
-            alert(response);
             var resp = JSON.stringify(response);
             var n = resp.search("existe");
             if(n!=-1){
@@ -160,12 +207,22 @@ function comprobarUsuarioServidor(correo, pass) {
                 //location.href = "#ventanarss";      //abrir ventana, dando atras volvemos
                 location.replace("#ventanarss");      //reemplaza ventana, dando atras no vuelve
             }
+            else{
+                $.mobile.loading( "hide" );
+                alert("El usurio no existe.");
+            }
+        },
+        error: function(request, status, exception) {
+            //cerramos ventana de carga:
+            $.mobile.loading( "hide" );
+            alert("Internet connection is down!");
         }
     });
 }
 
 function crearUsuarioServidor(correo, pass) {
     //alert('conectando al servidor');
+    timeout: 5000, // Microseconds, for the laughs.  Guaranteed timeout.
     $.ajax({
         url:   'http://noticiasprogramacion.esy.es/crearUsu.php',
         data: "correo="+correo+"&pass="+pass,
@@ -174,7 +231,6 @@ function crearUsuarioServidor(correo, pass) {
 
         },
         success:  function (response) {
-            alert(response);
             var resp = JSON.stringify(response);
             var n = resp.search("Usuario creado");
             if(n!=-1){
@@ -190,6 +246,15 @@ function crearUsuarioServidor(correo, pass) {
                //location.href = "#ventanarss";      //abrir ventana, dando atras volvemos
                location.replace("#ventanarss");      //reemplaza ventana, dando atras no vuelve
             }
-        }
+            else{
+                $.mobile.loading( "hide" );
+                alert("El usuario ya existe.");
+            }
+        },
+         error: function(request, status, exception) {
+            //cerramos ventana de carga:
+            $.mobile.loading( "hide" );
+             alert("Internet connection is down!");
+         }
     });
 }

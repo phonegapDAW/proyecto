@@ -34,7 +34,7 @@
     </div>
 
     <!-- Cabecera -->
-    <div data-role="header" data-position="fixed">
+    <div data-role="header" id="cabezera" data-position="fixed" data-tap-toggle="false">
         <!-- Boton que despliega el panel izquierdo -->
         <a href="#mypanel" data-icon="gear" class="ui-btn-left">Opciones</a>
         <h1>Noticias</h1>
@@ -42,7 +42,8 @@
     </div>
 
     <!-- Contenido -->
-    <div data-role="main" class="ui-content">
+    <div data-role="main" class="ui-content" id="noticias">
+
         <!-- aquí iran las noticias -->
         <div data-role="collapsibleset" id="rss"><center><h1>¡Bienvenido!</h1></center></div>
     </div>
@@ -58,7 +59,7 @@
 <div data-role="page" id="ventanalogin" data-theme='b'>
 
     <!-- Cabecera -->
-    <div data-role="header">
+    <div data-role="header" id="cabeceralogin">
         <h1>Login</h1>
     </div>
 
@@ -66,18 +67,20 @@
     <div data-role="main" class="ui-content" id="formulario">
         <!-- formulario -->
         <center>
-            <div id="form">
-                <div data-role="fieldcontain">
-                    <label for="correo">Correo:</label>
-                    <input type="text" name="name" id="correo" value=""  />
-                </div>
-                <div data-role="fieldcontain">
-                    <label for="pass">Contraseña:</label>
-                    <input type="text" name="name" id="pass" value=""  />
-                </div>
-                <a href="" id="nuevo" data-role="button" data-inline="true">Registrarse</a>
-                <a href="" id="entrar" data-role="button" data-inline="true" data-theme="a">Entrar</a>
-            </div>
+            <form id="form" onsubmit="return false;">
+                <fieldset>
+                    <div data-role="fieldcontain">
+                        <label for="correo">Correo:</label>
+                        <input type="text" style="text-align: center" name="name" id="correo" value=""  />
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="pass">Contraseña:</label>
+                        <input type="password" style="text-align: center" name="name" id="pass" value=""  />
+                    </div>
+                    <a href="" id="nuevo" data-role="button" data-inline="true">Registrarse</a>
+                    <input type="submit" data-inline="true" data-theme="a" name="submit" id="submit" value="Entrar">
+                </fieldset>
+            </form>
         </center>
     </div>
 
