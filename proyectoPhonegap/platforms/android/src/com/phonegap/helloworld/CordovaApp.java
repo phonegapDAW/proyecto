@@ -38,3 +38,4 @@ public class CordovaApp extends CordovaActivity
         loadUrl(launchUrl);
     }
 }
+

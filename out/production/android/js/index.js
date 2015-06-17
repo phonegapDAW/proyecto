@@ -4,22 +4,56 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
     $('#form').submit(function() {
-        if($("#correo").val()!="" && $("#pass").val()!=""){
+       if($("#correo").val()!="" && $("#pass").val()!=""){
 
-            //mostramos ventana de carga:
-            $.mobile.loading( "show", {
-                text: "Cargando...",
-                textVisible: true,
-                theme: "a",
-                html: ""
-            });
+           //mostramos ventana de carga:
+           $.mobile.loading( "show", {
+               text: "Cargando...",
+               textVisible: true,
+               theme: "a",
+               html: ""
+           });
 
-            comprobarUsuarioServidor($("#correo").val(),$("#pass").val());
+           comprobarUsuarioServidor($("#correo").val(),$("#pass").val());
 
-        }
-        else{
-            alert('Correo o contra incorrecta');
-        }
+       }
+       else{
+           alert('Correo o contra incorrecta');
+       }
+   });
+    $('#formtemas').submit(function() {
+
+        location.replace("#ventanarss");      //reemplaza ventana, dando atras no vuelve
+
+        var numberOfChecked = $('input:checkbox:checked').length;
+        var correo = $("#corr").html().replace("Correo: ", "");
+
+        var array=[];
+
+        $('input:checkbox:checked').each(function() {
+
+            array.push($(this).val());
+
+        });
+
+        guardarTemasDeUsuServidor(correo, array);
+
+    });
+    $('#formtemas2').submit(function() {
+
+        var numberOfChecked = $('input:checkbox:checked').length;
+        var correo = $("#corr").html().replace("Correo: ", "");
+
+        var array=[];
+
+        $('input:checkbox:checked').each(function() {
+
+            array.push($(this).val());
+
+        });
+
+        guardarTemasDeUsuServidor(correo, array);
+
     });
     $("#nuevo").click( function(){
         if($("#correo").val()!="" && $("#pass").val()!=""){
@@ -40,7 +74,10 @@ function onDeviceReady() {
         }
     });
     $("#cerrarSesion").click( function(){
+        $("#tabla").empty();
+        $("#tabla2").empty();
         db.transaction(eliminarTablaUsuario, errorCB);
+        db.transaction(eliminarTablaNoticias, errorCB);
     });
     $("#recargar").click( function(){
 
@@ -52,7 +89,8 @@ function onDeviceReady() {
             html: ""
         });
 
-        sacarNoticiasServidor();
+        var correo = $("#corr").html().replace("Correo: ", "");
+        sacarNoticiasServidor(correo);
         //alert("cargando");
     });
 
@@ -86,6 +124,9 @@ function querynoticias(tx) {
 function eliminarTablaUsuario(tx) {
     alert('Adios!');
     tx.executeSql('DROP TABLE IF EXISTS USUARIO');
+    tx.executeSql('DROP TABLE IF EXISTS NOTICIAS');
+    //quitamos las noticias
+    $( "#rss" ).html("");
     //location.href = "#ventanalogin";      //abrir ventana, dando atras volvemos
     location.replace("#ventanalogin");      //reemplaza ventana, dando atras no vuelve
 }
@@ -126,15 +167,19 @@ function querySuccessNoticias(tx, results) {
             var datos = "<div data-role='collapsible' data-icon='false'><h3>"+results.rows.item(i).titulo+"</h3><h4>"+results.rows.item(i).titulo+"</h4><p>"+results.rows.item(i).cuerpo+"</p><a HREF='http://"+results.rows.item(i).enlace+"'>"+results.rows.item(i).enlace+"</a><br>Tema: "+results.rows.item(i).tema+"</div>";
             $( "#rss" ).append( datos ).collapsibleset( "refresh" );
         }
-        //cerramos ventana de carga:
-        $.mobile.loading( "hide" );
+
         //subir a la primera noticia:
         $.mobile.silentScroll(0);
         //alert('conseguido');
+        //obtenemos los temas
+        var correo = $("#corr").html().replace("Correo: ", "");
+        sacarTemasServidor2(correo);
+
     }
     else{
         //alert('no hay noticias');
-        sacarNoticiasServidor();
+        var correo = $("#corr").html().replace("Correo: ", "");
+        sacarNoticiasServidor(correo);
     }
 }
 
@@ -146,17 +191,19 @@ function errorCB(err) {
 
 //-------------------------------------------------------------   SERVIDOR   ---------------------------------------------------------------
 
-function sacarNoticiasServidor() {
+function sacarNoticiasServidor(correo) {
     //alert('conectando al servidor');
 
     $.ajax({
         timeout: 5000, // Microseconds, for the laughs.  Guaranteed timeout.
         url:   'http://noticiasprogramacion.esy.es/damerss.php',
+        data: "correo="+correo,
         type:  'post',
         beforeSend: function () {
 
         },
         success:  function (response) {
+            //alert(response);
             db.transaction(function(tx) {
                 //alert('guardando noticias');
                 //eliminamos tabla:
@@ -181,6 +228,100 @@ function sacarNoticiasServidor() {
 
 }
 
+function guardarTemasDeUsuServidor(correo, array) {
+    //alert('conectando al servidor');
+    timeout: 5000, // Microseconds, for the laughs.  Guaranteed timeout.
+    $.ajax({
+        url:   'http://noticiasprogramacion.esy.es/guardarTemas.php',
+        data: "correo="+correo+"&array="+array,
+        type: "post",
+        beforeSend: function () {
+
+        },
+        success:  function (response) {
+            $("#tabla").empty();
+             //mostramos ventana de carga:
+           $.mobile.loading( "show", {
+               text: "Cargando...",
+               textVisible: true,
+               theme: "a",
+               html: ""
+                       });
+            //procede a sacar y mostrar las noticias
+            var correo = $("#corr").html().replace("Correo: ", "");
+            sacarNoticiasServidor(correo);
+
+        },
+         error: function(request, status, exception) {
+            //cerramos ventana de carga:
+            $.mobile.loading( "hide" );
+             alert("Internet connection is down!");
+         }
+    });
+}
+
+function sacarTemasServidor() {
+    //alert('conectando al servidor');
+
+    $.ajax({
+        timeout: 5000, // Microseconds, for the laughs.  Guaranteed timeout.
+        url:   'http://noticiasprogramacion.esy.es/obtenerTemas.php',
+        type:  'post',
+        beforeSend: function () {
+
+        },
+        success:  function (response) {
+
+            $("#tabla").empty();
+            $( "#tabla" ).append( response );
+            $("#tabla").trigger("create");
+
+            location.replace("#ventanaTemas");
+            //cerramos ventana de carga:
+            $.mobile.loading( "hide" );
+
+        },
+        error: function(request, status, exception) {
+            //cerramos ventana de carga:
+            $.mobile.loading( "hide" );
+            alert("Internet connection is down!");
+        }
+    });
+
+}
+
+function sacarTemasServidor2(correo) {
+    //alert('conectando al servidor');
+
+    $.ajax({
+        timeout: 5000, // Microseconds, for the laughs.  Guaranteed timeout.
+        url:   'http://noticiasprogramacion.esy.es/obtenerTemas2.php',
+        data: "correo="+correo,
+        type:  'post',
+        beforeSend: function () {
+
+        },
+        success:  function (response) {
+
+            $("#tabla2").empty();
+            $( "#tabla2" ).append( response );
+            $("#tabla2").trigger("create");
+
+            //cerramos ventana de carga:
+            $.mobile.loading( "hide" );
+            //alert("definitivamente conseguido");
+
+        },
+        error: function(request, status, exception) {
+            //cerramos ventana de carga:
+            $.mobile.loading( "hide" );
+            alert("Internet connection is down!");
+        }
+    });
+
+}
+
+
 function comprobarUsuarioServidor(correo, pass) {
     //alert('conectando al servidor');
     $.ajax({
@@ -204,8 +345,7 @@ function comprobarUsuarioServidor(correo, pass) {
                 //mostramos usuario en el panel:
                 $("#corr").html("Correo: "+$("#correo").val());
                 $("#cont").html("Contra: "+$("#pass").val());
-                //location.href = "#ventanarss";      //abrir ventana, dando atras volvemos
-                location.replace("#ventanarss");      //reemplaza ventana, dando atras no vuelve
+                location.href = "#ventanarss";      //abrir ventana, dando atras volvemos
             }
             else{
                 $.mobile.loading( "hide" );
@@ -239,12 +379,13 @@ function crearUsuarioServidor(correo, pass) {
                    tx.executeSql('CREATE TABLE IF NOT EXISTS USUARIO (correo TEXT PRIMARY KEY, pass TEXT)');
                    tx.executeSql("INSERT INTO USUARIO (correo, pass) VALUES ('"+$("#correo").val()+"','"+$("#pass").val()+"')");
                });
-               db.transaction(querynoticias, errorCB);
+
                //mostramos usuario en el panel:
                $("#corr").html("Correo: "+$("#correo").val());
                $("#cont").html("Contra: "+$("#pass").val());
-               //location.href = "#ventanarss";      //abrir ventana, dando atras volvemos
-               location.replace("#ventanarss");      //reemplaza ventana, dando atras no vuelve
+
+               sacarTemasServidor();
+
             }
             else{
                 $.mobile.loading( "hide" );

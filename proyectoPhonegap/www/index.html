@@ -21,10 +21,24 @@
     <!-- menu lateral (no se muestra) -->
     <div data-role="panel" id="mypanel" data-position-fixed="true">
         <center>
-            <h2>SuperMenu</h2>
-            <h3>Cuenta:</h3>
-            <p id="corr">Correo: </p>
-            <p id="cont">Contra: </p>
+            <div id="panelusu">
+                <h3>Cuenta:</h3>
+                <p id="corr">Correo: </p>
+                <p id="cont">Contra: </p>
+                <h3>Cambiar Temas:</h3>
+            </div>
+            <div id="paneltemas">
+                <form id="formtemas2" onsubmit="return false;">
+                    <fieldset data-role="controlgroup" data-type="horizontal">
+                        <table id="tabla2">
+                                
+                        </table>
+                        <br>
+                        <center><input type="submit" data-inline="true" data-theme="b" name="submit" id="confirm2" value="Confirmar"></center>
+                        <br>
+                    </fieldset>
+                </form>
+            </div>
         </center>
         <div id="cerrarPanel">     <!-- Colocado abajo -->
             <center>
@@ -55,6 +69,8 @@
 
 </div>
 
+
+
 <!-- ventana de Login -->
 <div data-role="page" id="ventanalogin" data-theme='b'>
 
@@ -79,6 +95,40 @@
                     </div>
                     <a href="" id="nuevo" data-role="button" data-inline="true">Registrarse</a>
                     <input type="submit" data-inline="true" data-theme="a" name="submit" id="submit" value="Entrar">
+                </fieldset>
+            </form>
+        </center>
+    </div>
+
+    <!-- Pie de página -->
+    <!--<div data-role="footer">
+        <h1>FIN</h1>
+    </div>-->
+
+</div>
+
+<!-- ventana de temas -->
+<div data-role="page" id="ventanaTemas" data-theme='b'>
+
+    <!-- Cabecera -->
+    <div data-role="header" id="cabeceratemas">
+        <h1>Temas</h1>
+    </div>
+
+    <!-- Contenido -->
+    <div data-role="main" class="ui-content" id="quetemas">
+        <!-- formulario -->
+        <center>
+            <form id="formtemas" onsubmit="return false;">
+
+                <fieldset data-role="controlgroup" data-type="horizontal">
+
+                    <table id="tabla">
+                        
+                    </table>
+                    <br>
+                    <center><input type="submit" data-inline="true" data-theme="a" name="submit" id="confirm" value="Confirmar"></center>
+
                 </fieldset>
             </form>
         </center>
